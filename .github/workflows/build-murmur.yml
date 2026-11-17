@@ -1,0 +1,30 @@
+name: Build Murmur
+on:
+  workflow_dispatch:
+  push:
+    branches: [murmur]
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select newest Xcode
+        run: |
+          XCODE=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          echo "Using $XCODE"
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+          swift --version
+          xcodebuild -downloadComponent MetalToolchain || true
+      - name: Build (ad-hoc signed local build)
+        run: make local LOCAL_CODESIGN_IDENTITY=-
+      - name: Package as Murmur.app
+        run: |
+          ditto "$HOME/Downloads/VoiceInk.app" Murmur.app
+          codesign --verify --deep Murmur.app
+          ditto -c -k --keepParent Murmur.app Murmur.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Murmur
+          path: Murmur.zip

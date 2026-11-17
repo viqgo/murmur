@@ -1,3 +1,13 @@
+# Murmur
+
+Murmur is a personal fork of [VoiceInk](https://github.com/Beingpax/VoiceInk) by Prakash Joshi (Beingpax).
+All of the app's functionality is VoiceInk's work. This fork only changes the app name, the app icon and the menu bar icon.
+It is licensed under GPL v3, the same as VoiceInk (see `LICENSE`). To support the original author, buy VoiceInk at [tryvoiceink.com](https://tryvoiceink.com).
+
+The original README follows.
+
+---
+
 <div align="center">
   <img src="VoiceInk/Assets.xcassets/AppIcon.appiconset/256-mac.png" width="180" height="180" />
   <h1>VoiceInk</h1>
