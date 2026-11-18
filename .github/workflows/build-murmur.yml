@@ -22,6 +22,10 @@ jobs:
       - name: Package as Murmur.app
         run: |
           ditto "$HOME/Downloads/VoiceInk.app" Murmur.app
+          # The generated Info.plist keeps CFBundleName = VoiceInk; set it and re-sign.
+          codesign -d --entitlements ent.plist --xml Murmur.app
+          plutil -replace CFBundleName -string Murmur Murmur.app/Contents/Info.plist
+          codesign --force --sign - --entitlements ent.plist Murmur.app
           codesign --verify --deep Murmur.app
           ditto -c -k --keepParent Murmur.app Murmur.zip
       - uses: actions/upload-artifact@v4
